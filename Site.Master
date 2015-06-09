@@ -1,0 +1,122 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="PfireProfiler.SiteMaster" %>
+
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="Form1" runat="server">
+    <telerik:RadScriptManager ID="RadScriptManager1" runat="server">
+        <Scripts>
+            <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.Core.js" />
+            <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQuery.js" />
+            <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQueryInclude.js" />
+        </Scripts>
+    </telerik:RadScriptManager>
+    <telerik:RadCodeBlock ID="RadCodeBlock1" runat="server">
+        <script type="text/javascript" language="javascript">
+            function errorAlert(errorCode) {
+                alertWindow = $find("<%= alertWin.ClientID %>")
+                alertWindow.show();
+                var alertLabel = document.getElementById('lblAlertMessage');
+                alertLabel.innerHTML = errorCode;
+
+            }
+            function CloseAlertWin() {
+                $find("<%= alertWin.ClientID %>").close();
+            }
+        </script>
+    </telerik:RadCodeBlock>
+    <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanelLoadingOverlay" runat="server">
+        <div class="loading">
+            <br />
+            <br />
+            <asp:Image ID="Image3" runat="server" ImageUrl="~/Images/loading2.gif"></asp:Image>
+            <label style="font-size: 11px;">
+                Loading</label>
+        </div>
+    </telerik:RadAjaxLoadingPanel>
+    <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanelLoadingOverlayTransparent" runat="server"
+        Transparency="30">
+        <div class="loading">
+            <br />
+            <br />
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/loading2.gif"></asp:Image>
+            <label style="font-size: 11px;">
+                Loading</label>
+        </div>
+    </telerik:RadAjaxLoadingPanel>
+    <div class="page">
+        <div class="header">
+            <div class='title'>
+                <img src="images/pfizerLogo.png" alt="" height="70px" />
+                <span>Profile Administrator</span>
+            </div>
+            <div class='countrySelect'>
+                Country:
+                <asp:DropDownList Visible="true" ID="ddlCountry" runat="server" AutoPostBack="true"
+                    Width="200px" OnSelectedIndexChanged="ddlCountry_SelectedIndexChanged">
+                </asp:DropDownList>
+            </div>
+        </div>
+        <div class="main">
+            <telerik:RadSplitter ID="mainSplitter" runat="server" Orientation="Vertical" Height="100%"
+                Width="100%" VisibleDuringInit="False" LiveResize="false">
+                <telerik:RadPane ID="panLeftnav" runat="server" Width="250px" MaxWidth="425">
+                    <telerik:RadPanelBar ID="nbLeftNav" runat="server" CausesValidation="False" ExpandMode="FullExpandedItem"
+                        Width="100%" Height="100%">
+                        <Items>
+                            <telerik:RadPanelItem Text="Administration" Value="8" Visible="true" Expanded="true">
+                                <Items>
+                                <telerik:RadPanelItem Text="PfiRE Profile Users" NavigateUrl="Default.aspx">
+                                    </telerik:RadPanelItem>
+                                    <telerik:RadPanelItem Text="PfiRE Profile Administrators" NavigateUrl="ProfilerAdmin.aspx">
+                                    </telerik:RadPanelItem>
+                                    
+                                </Items>
+                            </telerik:RadPanelItem>
+                        </Items>
+                    </telerik:RadPanelBar>
+                </telerik:RadPane>
+                <telerik:RadSplitBar ID="RadSplitBarDefault" runat="server" CollapseMode="Forward" />
+                <telerik:RadPane ID="panMainContent" runat="server" Scrolling="None">
+                    <asp:Panel ID="mainContentPanel" runat="server">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                    </asp:Panel>
+                </telerik:RadPane>
+            </telerik:RadSplitter>
+        </div>
+    </div>
+    <telerik:RadWindow ID="alertWin" runat="server" Title="Error Message" VisibleTitlebar="true"
+        Modal="True" CenterIfModal="true" Behaviors="Close" KeepInScreenBounds="true"
+        VisibleOnPageLoad="false" ShowContentDuringLoad="False" Width="513px" Height="330px">
+        <ContentTemplate>
+            <div style="border-bottom: solid 1px #2b5f98; overflow: hidden;">
+                <asp:Image ID="Image5" runat="server" ImageUrl="/Images/RDMWarningLogo.png" Style="float: left;" />
+                <div style="margin-top: 30px;">
+                    <asp:Image ID="Image6" runat="server" ImageUrl="/Images/alertX.png" Style="float: left;
+                        margin-left: 20px;" />
+                    <div style="margin-left: 20px; float: left; width: 290px;">
+                        <asp:Label ID="Label1" runat="server" Text="An error has occured while attempting to perform this operation. Please contact your system administrator."
+                            Style="font-size: 14px;"></asp:Label>
+                    </div>
+                    <div style="margin-left: 200px; padding-top: 70px;">
+                        <asp:Label ID="Label2" runat="server" Text="Error ID:" Style="font-size: 14px;"></asp:Label>&nbsp;
+                        <span style="font-size: 14px;" id="lblAlertMessage"></span>
+                    </div>
+                </div>
+            </div>
+            <telerik:RadButton ID="btnOK" runat="server" CausesValidation="false" Style="position: absolute;
+                bottom: 40px; right: 20px;" AutoPostBack='false' ButtonType="StandardButton"
+                Text="OK" OnClientClicking="CloseAlertWin">
+            </telerik:RadButton>
+        </ContentTemplate>
+    </telerik:RadWindow>
+    </form>
+</body>
+</html>
