@@ -2,6 +2,7 @@ DELETE FROM [Pfire_ApplicationController].[dbo].[PfireUserSite]
 DELETE FROM [Pfire_ApplicationController].[dbo].[PfireUser]
 DELETE FROM [Pfire_ApplicationController].[dbo].[Site]
 
+-- Making change for testing--
 SET IDENTITY_INSERT [Pfire_ApplicationController].[dbo].[PfireUser] ON 
 INSERT INTO [Pfire_ApplicationController].[dbo].[PfireUser]
            ([PfireUserID]
